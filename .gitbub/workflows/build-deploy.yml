@@ -1,0 +1,19 @@
+name: Build and Deploy Code
+
+on: [push, pull_request]
+  # push: 
+  #   branches: ["main"] # specify a list of the brabches where the git push command will trigger our CI/CD pipeline
+  # # This other notation also works
+  # pull_request:
+  #   branches:
+  #     - "main"
+  #     - "anotherbranch"
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: pulling git repo
+        uses: actions/checkout@v2
+      - name: say hi to juank
+        run: echo "Hello JuanK"

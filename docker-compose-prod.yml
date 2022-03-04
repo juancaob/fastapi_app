@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  api:
+    image: juancaob75/fastapi
+    depends_on:
+      - mysql_server
+    ports:
+      - 80:8000
+    # We do not need bind mount in production
+    # volumes:
+    #   - ./:/usr/scr/app
+      #- ./:/usr/scr/app:ro
+    # command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    # env_file:
+    #   - ./.env
+    environment:
+      - DATABASE_HOSTNAME=${DATABASE_HOSTNAME}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_USERNAME=${DATABASE_USERNAME}
+      - SECRET_KEY=${SECRET_KEY}
+      - ALGORITHM=${ALGORITHM}
+      - ACCESS_TOKEN_EXPIRE_MINUTES=${ACCESS_TOKEN_EXPIRE_MINUTES}
+
+  mysql_server:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}
+      - MYSQL_DATABASE=${DATABASE_NAME}
+    volumes:
+      - mysql-db:/var/lib/mysql
+
+
+volumes:
+  mysql-db:
